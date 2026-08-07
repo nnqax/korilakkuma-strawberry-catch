@@ -22,7 +22,7 @@ function preload(){
 
 /* SETUP RUNS ONCE */
 function setup() {
-  let cnv = createCanvas(600,400);
+  let cnv = createCanvas(800,400);
   // cnv.position((windowWidth - width) / 2, (windowHeight - height) / 2);
    cnv.style('position', 'absolute');
   cnv.style('left', '50%');
