@@ -17,8 +17,6 @@ function preload() {
 /* SETUP RUNS ONCE */
 function setup() {
   let cnv = createCanvas(400, 400);
-  cnv.style('width', '400px');
-  cnv.style('height', '400px');
   cnv.style('position', 'absolute');
   cnv.style('left', '50%');
   cnv.style('top', '50%');
@@ -202,8 +200,4 @@ function tryAgain() {
   }
 }
 
-// Defining this (even empty) stops p5play from auto-resizing
-// the canvas to fill the browser window on load/resize,
-// which was overriding the 800x400 size set in setup().
-// function windowResized() {
-// }
+
