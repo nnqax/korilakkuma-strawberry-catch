@@ -1,0 +1,3 @@
+// Example: Place a button dead-center
+enterButton.x = width / 2;
+enterButton.y = height / 2;
