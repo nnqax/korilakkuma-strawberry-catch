@@ -6,6 +6,7 @@ let tryAgainbutton;
 let backgroundImage;
 let catcherImage;
 let strawberryImage;
+let startButton;
 /* PRELOAD LOADS FILES */
 function preload() {
   backgroundImage = loadImage("assets/background.jpg");
@@ -21,9 +22,12 @@ function setup() {
   cnv.style('left', '50%');
   cnv.style('top', '50%');
   cnv.style('transform', 'translate(-50%, -50%)');
+  
   // Resize images once in setup for performance
   catcherImage.resize(120, 0);
   strawberryImage.resize(60, 0);
+
+  
   // Center catcher on the 800px canvas
   catcher = new Sprite(catcherImage, width / 2, 330, 100, 20);
   catcher.h = 60;
@@ -35,6 +39,17 @@ function setup() {
   fallingObject.color = color(0, 128, 128);
   fallingObject.vel.y = random(1, 5);
   fallingObject.rotationLock = true;
+
+  //Create start
+   startButton = new Sprite(width / 2, height / 2 + 100);
+  startButton.w = 150;
+  startButton.h = 50;
+  startButton.collider = "k";
+  startButton.color = "pink";
+  startButton.textColor = "white";
+  startButton.text = "Start";
+
+  //Try again/play again button
   tryAgainbutton = new Sprite(width / 2, height / 2 + 100);
   tryAgainbutton.w = 150;
   tryAgainbutton.h = 50;
@@ -48,11 +63,28 @@ function draw() {
   background(224, 224, 224);
   image(backgroundImage, 0, 0, width, height);
   tryAgainbutton.pos = { x: -200, y: -200 };
-  if (score < 5) {
+  // startButton.pos = { x: -200, y: -200 };
+  fallingObject.pos = { x: -200, y: -200 };
+  catcher.pos = { x: -200, y: -200 };
+
+  if( startButton.mouse.presses()){
+    startButton.pos = { x: -200, y: -200 };
+    catcher.pos = { x: width / 2, y: 330 };
+    fallingObject.pos = { x: random(30, width - 30), y: 0 };
+    gamePlay();
+    
+  }
+  
+  
+
+}
+
+function gamePlay(){
+    if ( -15 <score < 15 ) {
     fill("white");
     stroke(5);
     textAlign(CENTER);
-    textSize(15);
+    textSize(30);
     text("Move korilakkuma\n with the \nleft and right \narrow keys to \ncatch the falling \nstrawberries!", width - 100, 35);
     textSize(25);
     text("Score: " + score, 80, 50);
@@ -85,7 +117,7 @@ function draw() {
     fallingObject.direction = "down";
     score += 1;
   }
-  if (score >= 5) {
+  if (score >= 15) {
     catcher.pos = { x: -200, y: -200 };
     fallingObject.vel.y = 0;
     fallingObject.pos = { x: -400, y: -400 };
@@ -96,7 +128,7 @@ function draw() {
     tryAgainbutton.text = "Play Again!";
     tryAgainbutton.pos = { x: width / 2, y: height / 2 + 100 };
   }
-  if (score <= -5) {
+  if (score <= -15) {
     catcher.pos = { x: -200, y: -200 };
     fallingObject.vel.y = 0;
     fallingObject.pos = { x: -400, y: -400 };
@@ -108,6 +140,8 @@ function draw() {
     tryAgainbutton.pos = { x: width / 2, y: height / 2 + 100 };
   }
 }
+
+//function of try again
 function tryAgain() {
   if (tryAgainbutton.mouse.presses()) {
     score = 0;
