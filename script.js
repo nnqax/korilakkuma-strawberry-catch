@@ -19,10 +19,15 @@ function preload() {
 function setup() {
   let cnv = createCanvas(800, 400);
 
+  cnv.style('width', '800px');
+  cnv.style('height', '400px');
+
   cnv.style('position', 'absolute');
   cnv.style('left', '50%');
   cnv.style('top', '50%');
   cnv.style('transform', 'translate(-50%, -50%)');
+
+
 
   // Resize images once in setup for performance
   catcherImage.resize(120, 0);
