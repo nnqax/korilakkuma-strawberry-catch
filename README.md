@@ -1,51 +1,30 @@
-# Collection Style Game Starter Code
-This is a place for you to start building your Collection Style Game Project!
+# 🍓 Korilakkuma Strawberry Catch
 
-### Project Requirements
-Your project should:
-- Include a falling object sprite that falls from random positions during the game. 
-- Include a catcher sprite that moves left and right when the arrow keys are pressed. 
-- Detect collision when the falling object collides with the catcher.
-- Include a score variable.
-- Increase the score when the falling object collides with the catcher.
-- Optional:
-  - Include three images: one in the background, one for your catcher sprite, and one for your falling object sprite.
-  - Include citations for your images in your project’s README file. 
-
-### Optional Spice Level + Extensions
-You can extend your project further by:
-- Trying a Spice Level Challenge (See Part 5)
-- Adding another falling object (See HQ for details)
-- Adding a home screen (See HQ for details)
-- Adding another level (See HQ for details)
-
-###  Attributions
-*If you used any code, ideas, images, or resources from another person or group of people, tell us about it here. Make sure it is in the public domain, has a license that allows you to use it, or is one of your own.
-- korilakkuma image for catcher 
-- Patterned background
-Pinterest.com
+A fun, cozy 2D browser collection game built using **JavaScript**, **p5.js**, and **p5.play**. Help Korilakkuma collect falling strawberries before running out of points!
 
 ---
 
-## File Overview
+## 🎮 How to Play
 
-### ← script.js
+1. Use the **Left Arrow (`←`)** and **Right Arrow (`→`)** keys to move Korilakkuma across the screen.
+2. Catch the falling strawberries to earn points.
+3. Every strawberry caught increases your score by **+1**.
+4. Every strawberry missed decreases your score by **-1**.
+5. **Win Condition:** Reach a score of **5** to win! 🎉
+6. **Loss Condition:** Fall to a score of **-5** and it's Game Over! 💔
+7. Click the **Try Again!** button at any time after a game over to restart and try again.
 
-This is where we will add the JavaScript code for our game.
+---
 
-### ← assets
+## 🛠️ Built With
 
-Drag in assets, like images, to add them to your project. If you are adding an image, it is best to save it to your computer, then upload the file to the `assets` folder. The url of the image will be `assets/example.jpg` or `assets/example.png`.
+* **[p5.js](https://p5js.org/)** - JavaScript library for creative coding
+* **[p5.play](https://p5play.org/)** - 2D game engine extension for p5.js
+* **HTML5 & CSS3** - Game structure and canvas styling
 
-### ← index.html
+---
 
-The HTML file contains HTML code that sets up a webpage for our game. We also add libraries in this file using HTML tags.
+## 🎨 Asset Credits
 
-### ← README.md
-
-That's this file. This is the place to tell people more about what your game does and how you built it. 
-
-### ← style.css
-
-The CSS file adds styling rules to your content like changing colors and fonts. We will not use this file for our game and instead update the style of our game in the script.js file.  
-
+* Background, Korilakkuma catcher, and strawberry sprites created for the project.
+* Built as part of the Girls Who Code TextJam project curriculum.
