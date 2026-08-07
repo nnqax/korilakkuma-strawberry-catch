@@ -22,9 +22,9 @@ function preload(){
 
 /* SETUP RUNS ONCE */
 function setup() {
-  createCanvas(400,400);
+  // createCanvas(400,400);
   
-  
+  createCanvas(windowWidth, windowHeight);
   //Create catcher 
   catcher = new Sprite(catcherImage,200,330,100,20);
   catcher.h = 60;
@@ -153,6 +153,10 @@ if (score < 5) {
 
 
 }
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+
 function tryAgain() {
    if (tryAgainbutton.mouse.presses()){
       score= 0;
