@@ -7,6 +7,7 @@ let backgroundImage;
 let catcherImage;
 let strawberryImage;
 let startButton;
+let leftButton, rightButton;
 /* PRELOAD LOADS FILES */
 function preload() {
   backgroundImage = loadImage("assets/background.jpg");
@@ -15,14 +16,15 @@ function preload() {
 }
 /* SETUP RUNS ONCE */
 function setup() {
-  let cnv = createCanvas(800, 400);
-  cnv.style('width', '800px');
+  let cnv = createCanvas(400, 400);
+  cnv.style('width', '400px');
   cnv.style('height', '400px');
   cnv.style('position', 'absolute');
   cnv.style('left', '50%');
   cnv.style('top', '50%');
   cnv.style('transform', 'translate(-50%, -50%)');
-  
+  cnv.style('touch-action', 'none'); // stops the browser from scrolling/zooming while dragging on the canvas
+
   // Resize images once in setup for performance
   catcherImage.resize(120, 0);
   strawberryImage.resize(60, 0);
@@ -37,7 +39,7 @@ function setup() {
   fallingObject = new Sprite(strawberryImage, random(30, width - 30), 0, 10);
   fallingObject.w = 30;
   fallingObject.color = color(0, 128, 128);
-  fallingObject.vel.y = random(1, 5);
+  fallingObject.vel.y = random(15, 21);
   fallingObject.rotationLock = true;
 
   //Create start
@@ -56,35 +58,76 @@ function setup() {
   tryAgainbutton.collider = "k";
   tryAgainbutton.color = "pink";
   tryAgainbutton.textColor = "white";
-}
-/* DRAW LOOP REPEATS */
-function draw() {
-  tryAgain();
-  background(224, 224, 224);
-  image(backgroundImage, 0, 0, width, height);
-  tryAgainbutton.pos = { x: -200, y: -200 };
+   tryAgainbutton.pos = { x: -200, y: -200 };
+
+  //On-screen touch controls — solid circles, hidden until the game starts
+  leftButton = new Sprite(60, height - 60, 60);
+  leftButton.shape = "circle";
+  leftButton.collider = "k";
+  leftButton.color = "pink";
+  leftButton.textColor = "white";
+  leftButton.text = "◀";
+  leftButton.pos = { x: -200, y: -200 };
+
+  rightButton = new Sprite(width - 60, height - 60, 60);
+  rightButton.shape = "circle";
+  rightButton.collider = "k";
+  rightButton.color = "pink";
+  rightButton.textColor = "white";
+  rightButton.text = "▶";
+  rightButton.pos = { x: -200, y: -200 };
+
+  // Register these as an "overlap" pair instead of a "collide" pair so the
+  // falling strawberry passes through the buttons instead of bumping off them,
+  // while keeping their colliders (and therefore touch detection) intact.
+  fallingObject.overlaps(leftButton);
+  fallingObject.overlaps(rightButton);
+
   // startButton.pos = { x: -200, y: -200 };
   fallingObject.pos = { x: -200, y: -200 };
   catcher.pos = { x: -200, y: -200 };
+}
+/* DRAW LOOP REPEATS */
+function draw() {
+  tryAgain(); 
+  background(224, 224, 224); 
+  image(backgroundImage, 0, 0, width, height); 
 
-  if( startButton.mouse.presses()){
-    startButton.pos = { x: -200, y: -200 };
-    catcher.pos = { x: width / 2, y: 330 };
-    fallingObject.pos = { x: random(30, width - 30), y: 0 };
-    gamePlay();
+  if (startButton.pos.x > 0){
+    
+    textSize(25);
+    textAlign(CENTER);
+    stroke(10);
+    fill("white");
+    text("Korilakkuma Strawberry Catch🍓", width / 2, height / 3);
+    textSize(15);
+    text("Help Korilakkuma collect sweet \nstrawberries! Use your Left and Right \narrow keys (or the on-screen buttons) to move.\n Click Start to play!", width / 2, height/ 2.1);
     
   }
+noStroke();
+  // 1. When start button is clicked, setup the round and give fallingObject speed
   
-  
+  if (startButton.mouse.presses()) {
+    startButton.pos = { x: -200, y: -200 }; 
+    catcher.pos = { x: width / 2, y: 330 }; 
+    fallingObject.pos = { x: random(30, width - 30), y: 0 }; 
+     fallingObject.vel.y = random(5, 10); // Give the object initial speed to start falling!
+    leftButton.pos = { x: 60, y: height - 60 };
+    rightButton.pos = { x: width - 60, y: height - 60 };
+  }
 
+  // 2. Run gamePlay() EVERY frame if the game has started (startButton is moved away)
+  if (startButton.pos.x < 0) {
+    gamePlay();
+  }
 }
 
 function gamePlay(){
-    if ( -15 <score < 15 ) {
+    if (score > -15 && score < 15) {
     fill("white");
     stroke(5);
     textAlign(CENTER);
-    textSize(30);
+    textSize(15);
     text("Move korilakkuma\n with the \nleft and right \narrow keys to \ncatch the falling \nstrawberries!", width - 100, 35);
     textSize(25);
     text("Score: " + score, 80, 50);
@@ -95,10 +138,10 @@ function gamePlay(){
     fallingObject.x = random(30, width - 30);
     score = score - 1;
   }
-  // Move Catcher
-  if (kb.pressing("left")) {
+  // Move Catcher — keyboard OR on-screen touch buttons
+  if (kb.pressing("left") || leftButton.mouse.pressing()) {
     catcher.vel.x = -4;
-  } else if (kb.pressing("right")) {
+  } else if (kb.pressing("right") || rightButton.mouse.pressing()) {
     catcher.vel.x = 4;
   } else {
     catcher.vel.x = 0;
@@ -121,6 +164,8 @@ function gamePlay(){
     catcher.pos = { x: -200, y: -200 };
     fallingObject.vel.y = 0;
     fallingObject.pos = { x: -400, y: -400 };
+    leftButton.pos = { x: -200, y: -200 };
+    rightButton.pos = { x: -200, y: -200 };
     textSize(25);
     stroke(0);
     text("Congrats, You won!", width / 2, height / 2);
@@ -132,6 +177,8 @@ function gamePlay(){
     catcher.pos = { x: -200, y: -200 };
     fallingObject.vel.y = 0;
     fallingObject.pos = { x: -400, y: -400 };
+    leftButton.pos = { x: -200, y: -200 };
+    rightButton.pos = { x: -200, y: -200 };
     textSize(25);
     stroke(0);
     text("Uh oh, you lost!", width / 2, height / 2);
@@ -147,14 +194,16 @@ function tryAgain() {
     score = 0;
     catcher.pos = { x: width / 2, y: 330 };
     fallingObject.pos = { x: random(30, width - 30), y: 0 };
-    fallingObject.vel.y = random(1, 5);
+        fallingObject.vel.y = random(18, 21);
     fallingObject.direction = "down";
     tryAgainbutton.pos = { x: -500, y: -500 };
+    leftButton.pos = { x: 60, y: height - 60 };
+    rightButton.pos = { x: width - 60, y: height - 60 };
   }
 }
 
 // Defining this (even empty) stops p5play from auto-resizing
 // the canvas to fill the browser window on load/resize,
 // which was overriding the 800x400 size set in setup().
-function windowResized() {
-}
+// function windowResized() {
+// }
